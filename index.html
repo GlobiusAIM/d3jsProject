@@ -458,7 +458,7 @@
                 d = toggleChildren(d);
                 update(d);
                 centerNode(d);
-                console.log(d);
+                nodeClicked(d);
             }
 
             function update(source) {
@@ -654,6 +654,16 @@
             //centerNode(root.children[cnt].children[0]);
         };
         drawTree(null,treeData);
+        function nodeClicked(node){
+            var pan = document.getElementById("side-panel");
+            while (pan.childElementCount)
+            {
+               pan.firstChild.remove();
+            }
+            var title = document.createElement("h2");
+            title.textContent = node.ip;
+            pan.appendChild(title);
+        }
     </script>
 
 
