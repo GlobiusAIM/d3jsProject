@@ -1,30 +1,33 @@
-{
-  "name": "Корень дерева", // не отображается
-  "children": [
-    //все свичи здеся
-    {
-      "name": "Свич 1",
-      
-      "children": [
-        {
-          "name": "Подсвич 1",
-          "children": [
-            { "name": "AgglomerativeCluster", "size": 0, "value": "fsfdsfsd" },
-            { "name": "CommunityStructure", "size": 3812 },
-            { "name": "HierarchicalCluster", "size": 6714 },
-            { "name": "MergeEdge", "size": 743 }
-          ]
-        },
-        {
-          "name": "Подсвич 1",
-          "children": [
-            { "name": "AgglomerativeCluster", "size": 0, "value": "fsfdsfsd" },
-            { "name": "CommunityStructure", "size": 3812 },
-            { "name": "HierarchicalCluster", "size": 6714 },
-            { "name": "MergeEdge", "size": 743 }
-          ]
-        }
-      ]
-    }
-  ]
-}
+[
+  {
+      "name":"111",
+    "id": "256",
+    "ip": "10.198.14.73",
+    "address": "Суворовская ул. 1/39",
+    "state": "N",
+    "children": [
+      {
+          "name":"111",
+        "id": "517",
+        "ip": "10.198.10.18",
+        "address": "Чебышевская ул. 5/1",
+        "state": "N"
+      }
+    ]
+  },
+  {
+      "name":"222",
+    "id": "1",
+    "ip": "10.198.19.51",
+    "address": "Пионерстроя 19/2",
+    "state": "N",
+    "children": [
+      {
+          "name":"111",
+        "id": "518",
+        "ip": "10.198.10.19",
+        "address": "Чебышевская ул. 5/1",
+        "state": "N"
+      }
+    ]
+  }]
