@@ -138,6 +138,13 @@
     <div id="tree-container"></div>
 
     <script type="text/javascript">
+        var mouseOver = false;
+        $(".close").mouseenter(function(){
+            mouseOver = true;
+        });
+        $(".close").mouseleave(function(){
+            mouseOver = false;
+        });
         var treeData;
 
         function fixMass(tree) {
@@ -157,6 +164,7 @@
             console.log(treeData);
             treeData = {
                 "name": "flare",
+                "id": 0,
                 "children": treeData
             };
             drawTree(null, treeData);
@@ -388,10 +396,14 @@
                     node.attr("transform", "translate(" + d.y0 + "," + d.x0 + ")");
                     updateTempConnector();
                 }).on("dragend", function (d) {
-
+                    console.log(d);
+                    console.log(this);
                     if (d == root) {
                         return;
                     }
+                    if (mouseOver)
+                        selectedNode=root;
+                    
                     domNode = this;
                     if (selectedNode) {
                         // now remove the element from the parent, and insert it into the new elements children
