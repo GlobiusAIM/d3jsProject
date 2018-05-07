@@ -7,7 +7,7 @@
     {
      "name": "cluster",
      "children": [
-      {"name": "AgglomerativeCluster", "size": 0},
+      {"name": "AgglomerativeCluster", "value":"fsfdsfsd", "hui":true},
       {"name": "CommunityStructure", "size": 3812},
       {"name": "HierarchicalCluster", "size": 6714},
       {"name": "MergeEdge", "size": 743}

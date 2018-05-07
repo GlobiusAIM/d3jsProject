@@ -1,0 +1,30 @@
+{
+  "name": "Корень дерева", // не отображается
+  "children": [
+    //все свичи здеся
+    {
+      "name": "Свич 1",
+      
+      "children": [
+        {
+          "name": "Подсвич 1",
+          "children": [
+            { "name": "AgglomerativeCluster", "size": 0, "value": "fsfdsfsd" },
+            { "name": "CommunityStructure", "size": 3812 },
+            { "name": "HierarchicalCluster", "size": 6714 },
+            { "name": "MergeEdge", "size": 743 }
+          ]
+        },
+        {
+          "name": "Подсвич 1",
+          "children": [
+            { "name": "AgglomerativeCluster", "size": 0, "value": "fsfdsfsd" },
+            { "name": "CommunityStructure", "size": 3812 },
+            { "name": "HierarchicalCluster", "size": 6714 },
+            { "name": "MergeEdge", "size": 743 }
+          ]
+        }
+      ]
+    }
+  ]
+}
