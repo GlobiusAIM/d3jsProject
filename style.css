@@ -6,12 +6,15 @@ body {
   font-family: "Helvetica Neue", Helvetica;
 }
 
-#chart, #header, #footer {
+#chart,
+#header,
+#footer {
   position: absolute;
   top: 0;
 }
 
-#header, #footer {
+#header,
+#footer {
   z-index: 1;
   display: block;
   font-size: 36px;
@@ -19,7 +22,8 @@ body {
   text-shadow: 0 1px 0 #fff;
 }
 
-#header.inverted, #footer.inverted {
+#header.inverted,
+#footer.inverted {
   color: #fff;
   text-shadow: 0 1px 4px #000;
 }
@@ -50,7 +54,8 @@ line {
   stroke-width: 1.5px;
 }
 
-.string, .regexp {
+.string,
+.regexp {
   color: #f39;
 }
 
@@ -67,11 +72,13 @@ line {
   color: #369;
 }
 
-.class, .special {
+.class,
+.special {
   color: #1181B8;
 }
 
-a:link, a:visited {
+a:link,
+a:visited {
   color: #000;
   text-decoration: none;
 }
@@ -86,4 +93,18 @@ a:hover {
   width: 1280px;
   font-size: 12px;
   color: #999;
+}
+
+/* Добавить выше в index.html выше .node circle{} */
+
+.error {
+  stroke: red;
+}
+
+.warning {
+  stroke: yellow;
+}
+
+.good {
+  stroke: green;
 }
