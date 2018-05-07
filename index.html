@@ -33,9 +33,11 @@
         .selectedNode {
             font-weight: 700;
         }
+
         .highlight * {
             background-color: coral;
         }
+
         .node text {
             font-size: 10px;
             font-family: sans-serif;
@@ -66,6 +68,38 @@
             margin-right: 370px;
         }
 
+        .close {
+            position: absolute;
+            right: 400px;
+            top: 32px;
+            width: 32px;
+            height: 32px;
+            opacity: 0.3;
+        }
+
+        .close:hover {
+            opacity: 1;
+        }
+
+        .close:before,
+        .close:after {
+            position: absolute;
+            left: 15px;
+            content: ' ';
+            height: 33px;
+            width: 2px;
+            background-color: #333;
+        }
+
+        .close:before {
+            transform: rotate(45deg);
+        }
+
+        .close:after {
+            transform: rotate(-45deg);
+        }
+
+
         #side-panel {
             float: right;
             width: 350px;
@@ -75,6 +109,7 @@
             border-left: 2px solid black;
             overflow-y: auto;
         }
+
 
         #side-panel>h2,
         h3 {
@@ -99,12 +134,12 @@
 
 <body>
     <div id="side-panel"></div>
+    <div class="close"></div>
     <div id="tree-container"></div>
 
     <script type="text/javascript">
-
-
         var treeData;
+
         function fixMass(tree) {
             for (var i = 0; i < tree.length; i++) {
                 tree[i].name = tree[i].ip + "|" + tree[i].id;
@@ -683,87 +718,94 @@
             // Layout the tree initially and center on the root node.
             update(root);
             console.log(root);
-            
+
             //@@@@@@@@@@@@@@@@@@@@@@@@
-                    function RecursiveSearchBySwitchID(vlan) {
-            $(".highlight").removeClass("highlight")
-            console.log(vlan);
-            var vlanId = vlan.split("-")[0];
-            $.get("http://cybear.tv/monitor/api.php?vlan="+vlanId,function(res){
-                console.log(res);
-                switchIds = JSON.parse(res);
-                var node;
-                var temp = d3.selectAll("g").filter(function (d) {
-                    if (!d) return false;
-                    if (switchIds.indexOf(d.id)==-1) return false;
-                    console.log(d);
-                    node = d;
-                    return true;
-                });
-                console.log(node);
-                centerNode(node);
-                $(temp[0]).addClass("highlight");
-            })
-                
+            function RecursiveSearchBySwitchID(vlan) {
+                $(".highlight").removeClass("highlight")
+                console.log(vlan);
+                var vlanId = vlan.split("-")[0];
+                $.get("http://cybear.tv/monitor/api.php?vlan=" + vlanId, function (res) {
+                    console.log(res);
+                    switchIds = JSON.parse(res);
+                    var node;
+                    var temp = d3.selectAll("g").filter(function (d) {
+                        if (!d) return false;
+                        if (switchIds.indexOf(d.id) == -1) return false;
+                        console.log(d);
+                        node = d;
+                        return true;
+                    });
+                    console.log(node);
+                    centerNode(node);
+                    $(temp[0]).addClass("highlight");
+                })
+
             }
-        function ctreatePortsTable(arr) {
-            var table = document.createElement("table");
-            for (key in arr) {
-                //console.log(arr[key]);
-                var row = document.createElement("tr");
-                var td0 = document.createElement("td");
-                td0.textContent = key;
-                var td1 = document.createElement("td");
-                var tstr = [];
-                for (key1 in arr[key]) {
-                    var txt = document.createElement("text");
-                    txt.setAttribute("style", "display:block; mouse:pointer;")
-                    txt.textContent = key1;
-                    txt.onclick = function () {
-                        console.log(this);
-                        RecursiveSearchBySwitchID(this.innerText);
+            function ctreatePortsTable(arr) {
+                var table = document.createElement("table");
+                for (key in arr) {
+                    //console.log(arr[key]);
+                    var row = document.createElement("tr");
+                    var td0 = document.createElement("td");
+                    td0.textContent = key;
+                    var td1 = document.createElement("td");
+                    var tstr = [];
+                    for (key1 in arr[key]) {
+                        var txt = document.createElement("text");
+                        txt.setAttribute("style", "display:block; mouse:pointer;")
+                        txt.textContent = key1;
+                        txt.onclick = function () {
+                            console.log(this);
+                            RecursiveSearchBySwitchID(this.innerText);
+                        }
+                        td1.appendChild(txt);
                     }
-                    td1.appendChild(txt);
+
+                    row.appendChild(td0);
+                    row.appendChild(td1);
+                    table.appendChild(row);
                 }
-
-                row.appendChild(td0);
-                row.appendChild(td1);
-                table.appendChild(row);
+                return table;
             }
-            return table;
-        }
 
-        function nodeClicked(node, el) {
-            //console.log(d3.select(node).enter());
-            //node.select("circle").attr("r", 20);
-            curentlySelected = node;
-            $(".selectedNode").removeClass("selectedNode");
-            $(el).addClass("selectedNode");
-            var pan = document.getElementById("side-panel");
-            while (pan.childElementCount) {
-                pan.firstChild.remove();
+            function nodeClicked(node, el) {
+                //console.log(d3.select(node).enter());
+                //node.select("circle").attr("r", 20);
+                curentlySelected = node;
+                $(".selectedNode").removeClass("selectedNode");
+                $(el).addClass("selectedNode");
+                var pan = document.getElementById("side-panel");
+                while (pan.childElementCount) {
+                    pan.firstChild.remove();
+                }
+                var title = document.createElement("h2");
+                title.textContent = node.ip + "/" + node.id;
+                pan.appendChild(title);
+                var address = document.createElement("h3");
+                address.textContent = node.address;
+                pan.appendChild(address);
+                $.get("http://cybear.tv/monitor/api.php?switch=" + node.id, function (res) {
+                    var arr = JSON.parse(res);
+                    //console.log(arr);
+                    pan.appendChild(ctreatePortsTable(arr));
+                });
             }
-            var title = document.createElement("h2");
-            title.textContent = node.ip + "/" + node.id;
-            pan.appendChild(title);
-            var address = document.createElement("h3");
-            address.textContent = node.address;
-            pan.appendChild(address);
-            $.get("http://cybear.tv/monitor/api.php?switch=" + node.id, function (res) {
-                var arr = JSON.parse(res);
-                //console.log(arr);
-                pan.appendChild(ctreatePortsTable(arr));
-            });
-        }
-        function sendChangeToServ(child, parent) {
-            console.log({ "parent": parent, "child": child });
-            $.post("http://cybear.tv/monitor/api.php", { "parent": parent.id, "child": child.id }, function (res) {
-                console.log(res);
-            });
-            //$_POST['parent'] $_POST['child'] 
-        }
+
+            function sendChangeToServ(child, parent) {
+                console.log({
+                    "parent": parent,
+                    "child": child
+                });
+                $.post("http://cybear.tv/monitor/api.php", {
+                    "parent": parent.id,
+                    "child": child.id
+                }, function (res) {
+                    console.log(res);
+                });
+                //$_POST['parent'] $_POST['child'] 
+            }
             //@@@@@@@@@@@@@@@@@@@@@@@@
-            
+
         };
 
 
