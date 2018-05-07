@@ -9537,7 +9537,6 @@
     return d3_xhr(url, "application/json", d3_json, callback);
   };
   function d3_json(request) {
-      console.log(request);
     return JSON.parse(request.responseText);
   }
   d3.html = function(url, callback) {
