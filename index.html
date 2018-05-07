@@ -150,7 +150,6 @@
             var root;
 
             // size of the diagram
-<<<<<<< HEAD
             var viewerSize = {
                 get width() {
                     return $("#tree-container").width();
@@ -167,26 +166,6 @@
                 viewerSize.width = $("#tree-container").width();
                 viewerSize.height = $("#tree-container").height();
                 tree.size([viewerSize.height, viewerSize.width]);
-=======
-            var viewerWidth = {
-                get all() {
-                    return $("#tree-container").width();
-                }
-            }
-            var viewerHeight = {
-                get all() {
-                    return $("#tree-container").height();
-                }
-            }
-            console.log('viewerHeight is ' + viewerHeight.all);
-
-            var tree = d3.layout.tree()
-                .size([viewerHeight.all, viewerWidth.all]);
-            $(window).resize(function () {
-                viewerWidth.all = $("#tree-container").width();
-                viewerHeight.all = $("#tree-container").height();
-                tree.size([viewerHeight.all, viewerWidth.all]);
->>>>>>> 541a467646070c19fbfb655beeb8b21ab1ca9b99
                 //$("#tree-container").attr("style","width:100%; height:100%;")
                 console.log("resize");
             });
@@ -478,16 +457,8 @@
                 scale = zoomListener.scale();
                 x = -source.y0;
                 y = -source.x0;
-<<<<<<< HEAD
                 x = x * scale + viewerSize.width / 2;
                 y = y * scale + viewerSize.height / 2;
-=======
-                console.log('old x^y is ' + (-source.y0) + ' . old y^x is ' + (-source.x0));
-                x = x * scale + viewerWidth.all / 2;
-                y = y * scale + viewerHeight.all / 2;
-                console.log('x is ' + x + ' . y is ' + y + ' . scale is ' + scale + ' . viewerWidth is ' +
-                    viewerWidth.all + ' . viewerHeight is ' + viewerHeight.all);
->>>>>>> 541a467646070c19fbfb655beeb8b21ab1ca9b99
                 d3.select('g').transition()
                     .duration(duration)
                     .attr("transform", "translate(" + x + "," + y + ")scale(" + scale + ")");
@@ -536,11 +507,7 @@
                 };
                 childCount(0, root);
                 var newHeight = d3.max(levelWidth) * 25; // 25 pixels per line  
-<<<<<<< HEAD
                 tree = tree.size([newHeight, viewerSize.width]);
-=======
-                tree = tree.size([newHeight, viewerWidth.all]);
->>>>>>> 541a467646070c19fbfb655beeb8b21ab1ca9b99
 
                 // Compute the new tree layout.
                 var nodes = tree.nodes(root).reverse();
@@ -704,11 +671,7 @@
 
             // Define the root
             root = treeData;
-<<<<<<< HEAD
             root.x0 = viewerSize.height / 2;
-=======
-            root.x0 = viewerHeight.all / 2;
->>>>>>> 541a467646070c19fbfb655beeb8b21ab1ca9b99
             root.y0 = 0;
 
             // Layout the tree initially and center on the root node.
@@ -718,7 +681,6 @@
 
             //centerNode(root.children[cnt].children[0]);
         };
-<<<<<<< HEAD
         function ctreatePortsTable(arr){
             var table = document.createElement("table");
             for (key in arr) {
@@ -745,10 +707,6 @@
 
         function nodeClicked(node){
             console.log(node);
-=======
-
-        function nodeClicked(node) {
->>>>>>> 541a467646070c19fbfb655beeb8b21ab1ca9b99
             var pan = document.getElementById("side-panel");
             while (pan.childElementCount) {
                 pan.firstChild.remove();
