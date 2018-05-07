@@ -68,10 +68,15 @@
             margin-right: 370px;
         }
 
+        .searchInNodes{
+            position: absolute;
+            left: 0px;
+            top: 45px;
+        }
         .close {
             position: absolute;
             right: 400px;
-            top: 32px;
+            top: 40px;
             width: 32px;
             height: 32px;
             opacity: 0.3;
@@ -135,6 +140,11 @@
 <body>
     <div id="side-panel"></div>
     <div class="close"></div>
+    <div class="searchInNodes">
+        <input id="nodeSearch" type="text" placeholder="Поиск"/>
+        <button id="searchPrev"><-</button>
+        <button id="searchNext">-></button>
+    </div>
     <div id="tree-container"></div>
 
     <script type="text/javascript">
@@ -176,6 +186,7 @@
 
         // Get JSON data
         drawTree = function (error, treeData) {
+            
             console.log(treeData);
             var currentlySelected = null;
             // Calculate total nodes, max label length
@@ -502,9 +513,17 @@
             };
 
             // Function to center node when clicked/dropped so node doesn't get lost when collapsing/moving with large amount of children.
+            function recurExpand(d)
+            {
+                expand(d);
+                if (d.parent)
+                    recurExpand(d.parent);
+            }
 
             function centerNode(source) {
                 //console.log('start');
+                recurExpand(source.parent);
+                update(root);
                 scale = zoomListener.scale();
                 x = -source.y0;
                 y = -source.x0;
@@ -814,8 +833,39 @@
                 }, function (res) {
                     console.log(res);
                 });
-                //$_POST['parent'] $_POST['child'] 
             }
+            var searchersMass = [];
+            var curPos = 0;
+            function recursiveSearch(val,searchStr){
+                //console.log(val);
+                for (var i=0; i<val.length; i++){
+                    console.log(searchStr);
+                    if (val[i].name)
+                        if (val[i].name.indexOf(searchStr)>-1)
+                            {
+                                searchersMass.push(val[i]);
+                                //console.log(val[i]);
+                            }
+                    if (val[i].children)
+                        recursiveSearch(val[i].children,searchStr);
+                    if (val[i]._children)
+                        recursiveSearch(val[i]._children,searchStr);
+                }
+            }
+            $("#nodeSearch").change(function(){
+                curPos = 0;
+                searchersMass = [];
+                recursiveSearch(root.children,this.value);
+                console.log(searchersMass);
+                centerNode(searchersMass[curPos]);
+            });
+            $("#searchNext").click(function(){
+                centerNode(searchersMass[++curPos])
+            });
+            $("#searchPrev").click(function(){
+                centerNode(searchersMass[--curPos])
+            })
+
             //@@@@@@@@@@@@@@@@@@@@@@@@
 
         };
