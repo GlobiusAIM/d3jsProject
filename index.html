@@ -154,13 +154,25 @@
             width: 100%;
         }
 
+        #side-panel table tr {
+            padding: 3px;
+        }
+
         #side-panel table tr td:nth-child(1) {
             text-align: right;
             vertical-align: top;
         }
-
+        #side-panel table tr:nth-child(odd){
+            background-color: #0f02;
+        }
         #side-panel table tr td:nth-child(2) {
             text-align: right;
+        }
+        #side-panel table tr td:nth-child(2) text{
+            cursor: pointer;
+        }
+        #side-panel table tr td:nth-child(2) text:hover{
+            background-color: #0ff8;
         }
     </style>
 </head>
@@ -480,7 +492,7 @@
                 d3.select(domNode).select('.ghostCircle').attr('pointer-events', '');
                 updateTempConnector();
                 if (draggingNode !== null) {
-                    update(root);
+                    //update(root);
                     centerNode(draggingNode);
                     draggingNode = null;
                 }
@@ -552,7 +564,7 @@
             function centerNode(source) {
                 //console.log('start');
                 recurExpand(source.parent);
-                update(root);
+                update(source);
                 scale = zoomListener.scale();
                 x = -source.y0;
                 y = -source.x0;
@@ -637,7 +649,7 @@
                     })
                     .attr("transform", function (d) {
                         return "translate(" + source.y0 + "," + source.x0 + ")";
-                    }).on('click',nodeClicked);
+                    });
                 
                 nodeEnter.append("circle")
                     .attr('class', 'nodeCircle')
@@ -656,7 +668,7 @@
                     .text(function (d) {
                         return d.name;
                     })
-                    .style("fill-opacity", 0);
+                    .style("fill-opacity", 0).on('click',nodeClicked);
 
                 // phantom node to give us mouseover in a radius around it
                 nodeEnter.append("circle")
@@ -797,7 +809,7 @@
                     var tstr = [];
                     for (key1 in arr[key]) {
                         var txt = document.createElement("text");
-                        txt.setAttribute("style", "display:block; mouse:pointer;")
+                        txt.setAttribute("style", "display:block;")
                         txt.textContent = key1;
                         txt.onclick = function () {
                             //console.log(this);
@@ -818,7 +830,9 @@
                 //node.select("circle").attr("r", 20);
                 curentlySelected = node;
                 $(".selectedNode").removeClass("selectedNode");
-                $(this).addClass("selectedNode");
+                d3.selectAll("g").filter(function(d){
+                        return d==node;
+                    }).classed("selectedNode",true);
                 var pan = document.getElementById("side-panel");
                 while (pan.childElementCount) {
                     pan.firstChild.remove();
