@@ -2,6 +2,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1, initial-scale=1, user-scalable=no" />
     <link type="text/css" rel="stylesheet" href="style.css">
     <script type="text/javascript" src="jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="d3.v3.js"></script>
@@ -188,6 +189,7 @@
     <div id="tree-container"></div>
 
     <script type="text/javascript">
+    
         var mouseOver = false;
         $(".close").mouseenter(function(){
             mouseOver = true;
@@ -925,6 +927,7 @@
                         return searchersMass.indexOf(d)>-1;
                     }).classed("highlight",true);
                 $("#searchNext").trigger("click");
+                if (searchersMass.length==0) $("#searchCounter").text("");
             }
             $("#searchNext").click(function(){
                 if (curPos<searchersMass.length-1)
